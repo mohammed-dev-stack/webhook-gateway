@@ -1,0 +1,30 @@
+mutation report  2026-10-31T21:37:53  git 6447b24
+baseline 36.2s; mutants run: 1; skipped (bad anchors): none
+gate suite: smoke; domain suites: claim_basic,claim_basic_gaps,claim_fairness,claim_race,claim_release_cycle,crash_recovery,janitor,janitor_gaps,release_breaker,release_shutdown
+
+ID | Kind | File | Intent | Expected | Result | KilledBy | Verdict | Sec
+---|---|---|---|---|---|---|---|---
+C12 | KILL | sql/claim.sql | LATERAL reclaims unexpired leases | claim_basic | KILLED | claim_basic,claim_race,claim_fairness | OK | 33
+
+Totals: 1 mutants | KILLED=1 SURVIVED=0 INVALID=0 ERROR=0 TIMEOUT=0
+Mutation score (killed / evaluated): 100%   non-probe: 1/1
+
+GAP (non-probe mutants that survived):
+  (none)
+
+PROBES that survived (information):
+  (none)
+
+NOT EVALUATED (INVALID / ERROR / TIMEOUT; these are NOT kills):
+  (none)
+
+Killed by an unexpected suite only (informational):
+  (none)
+
+Failing tests per KILLED mutant (first 3):
+  C12: Console
+  C12: INV-CL-4: 3 tenants x 7 due rows drain in <=20 calls, 21 unique, all processing
+  C12: INV-RC-2: commit variant yields disjoint sets
+
+Production SQL unchanged: yes (SHA-256 identical before and after).
+Total elapsed: 1.2 minutes

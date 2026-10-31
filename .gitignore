@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+sql/_mutants/
+mutation-report.partial.txt
+listonly_*.txt

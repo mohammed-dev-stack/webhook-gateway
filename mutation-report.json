@@ -1,0 +1,20 @@
+[
+    {
+        "id":  "C12",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "LATERAL reclaims unexpired leases",
+        "expected":  [
+                         "claim_basic"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic",
+                         "claim_race",
+                         "claim_fairness"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33,
+        "note":  ""
+    }
+]

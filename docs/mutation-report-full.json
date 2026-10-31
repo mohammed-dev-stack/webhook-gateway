@@ -1,0 +1,741 @@
+[
+    {
+        "id":  "C01",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "remove SKIP LOCKED",
+        "expected":  [
+                         "claim_race"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_race"
+                     ],
+        "verdict":  "OK",
+        "seconds":  36.2,
+        "note":  ""
+    },
+    {
+        "id":  "C02",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "per-tenant cap 2 -\u003e 10",
+        "expected":  [
+                         "claim_basic",
+                         "claim_fairness"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_race",
+                         "claim_basic",
+                         "claim_fairness",
+                         "claim_basic_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  34.9,
+        "note":  ""
+    },
+    {
+        "id":  "C03",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "batch size 10 -\u003e 100",
+        "expected":  [
+                         "claim_basic"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic",
+                         "claim_basic_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.3,
+        "note":  ""
+    },
+    {
+        "id":  "C04",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "reclaim boundary \u003c= -\u003e \u003c",
+        "expected":  [
+                         "crash_recovery"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "crash_recovery"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.4,
+        "note":  ""
+    },
+    {
+        "id":  "C05",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "reclaim_count bound 3 -\u003e 100",
+        "expected":  [
+                         "crash_recovery"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "crash_recovery"
+                     ],
+        "verdict":  "OK",
+        "seconds":  36,
+        "note":  ""
+    },
+    {
+        "id":  "C06",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "total_attempts not incremented",
+        "expected":  [
+                         "claim_basic",
+                         "claim_release_cycle"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "crash_recovery",
+                         "claim_basic",
+                         "release_shutdown",
+                         "claim_release_cycle",
+                         "release_breaker"
+                     ],
+        "verdict":  "OK",
+        "seconds":  34.3,
+        "note":  ""
+    },
+    {
+        "id":  "C07",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "attempts not incremented",
+        "expected":  [
+                         "claim_basic"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "crash_recovery",
+                         "claim_release_cycle",
+                         "claim_basic",
+                         "release_breaker",
+                         "release_shutdown",
+                         "claim_race"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.1,
+        "note":  ""
+    },
+    {
+        "id":  "C08",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "lease_token = NULL on claim",
+        "expected":  [
+                         "claim_basic"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "crash_recovery",
+                         "claim_basic",
+                         "claim_release_cycle",
+                         "release_shutdown",
+                         "release_breaker"
+                     ],
+        "verdict":  "OK",
+        "seconds":  34,
+        "note":  ""
+    },
+    {
+        "id":  "C09",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "lock window 30s -\u003e 5s",
+        "expected":  [
+                         "claim_basic"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.4,
+        "note":  ""
+    },
+    {
+        "id":  "C10",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "reclaim_count increment replaced by +0",
+        "expected":  [
+                         "crash_recovery"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_release_cycle",
+                         "crash_recovery"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.8,
+        "note":  ""
+    },
+    {
+        "id":  "C11",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "pending budget guard loosened",
+        "expected":  [
+                         "claim_basic"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic"
+                     ],
+        "verdict":  "OK",
+        "seconds":  35.5,
+        "note":  ""
+    },
+    {
+        "id":  "C12",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "LATERAL reclaims unexpired leases",
+        "expected":  [
+                         "claim_basic"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic",
+                         "claim_race",
+                         "claim_fairness"
+                     ],
+        "verdict":  "OK",
+        "seconds":  34.3,
+        "note":  ""
+    },
+    {
+        "id":  "C13",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "active_tenants forgets expired processing",
+        "expected":  [
+                         "crash_recovery"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker",
+                         "crash_recovery",
+                         "release_shutdown",
+                         "claim_release_cycle"
+                     ],
+        "verdict":  "OK",
+        "seconds":  32.5,
+        "note":  ""
+    },
+    {
+        "id":  "C14",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "SET status = pending instead of processing",
+        "expected":  [
+                         "claim_basic"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker",
+                         "crash_recovery",
+                         "claim_release_cycle",
+                         "release_shutdown",
+                         "claim_basic",
+                         "claim_race",
+                         "claim_fairness",
+                         "claim_basic_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  32.4,
+        "note":  ""
+    },
+    {
+        "id":  "C15",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "paused rows claimable",
+        "expected":  [
+                         "claim_basic_gaps"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  32.5,
+        "note":  ""
+    },
+    {
+        "id":  "C16",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "outer ordering: oldest first -\u003e by id",
+        "expected":  [
+                         "claim_basic_gaps"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  31.4,
+        "note":  ""
+    },
+    {
+        "id":  "C17",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "LATERAL ordering: oldest first -\u003e by id",
+        "expected":  [
+                         "claim_basic_gaps"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.2,
+        "note":  ""
+    },
+    {
+        "id":  "C18",
+        "kind":  "KILL",
+        "file":  "sql/claim.sql",
+        "intent":  "LATERAL ignores the tenant",
+        "expected":  [
+                         "claim_basic",
+                         "claim_fairness"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "claim_basic_gaps",
+                         "claim_basic",
+                         "claim_fairness"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.7,
+        "note":  ""
+    },
+    {
+        "id":  "C19",
+        "kind":  "PROBE",
+        "file":  "sql/claim.sql",
+        "intent":  "PROBE LATERAL due check loosened by 1h",
+        "expected":  [
+
+                     ],
+        "result":  "SURVIVED",
+        "killedBy":  [
+
+                     ],
+        "verdict":  "PROBE-SURVIVED",
+        "seconds":  33.3,
+        "note":  ""
+    },
+    {
+        "id":  "C20",
+        "kind":  "PROBE",
+        "file":  "sql/claim.sql",
+        "intent":  "PROBE updated_at not touched by claim",
+        "expected":  [
+
+                     ],
+        "result":  "SURVIVED",
+        "killedBy":  [
+
+                     ],
+        "verdict":  "PROBE-SURVIVED",
+        "seconds":  33.7,
+        "note":  ""
+    },
+    {
+        "id":  "C21",
+        "kind":  "PROBE",
+        "file":  "sql/claim.sql",
+        "intent":  "PROBE RETURNING drops total_attempts",
+        "expected":  [
+
+                     ],
+        "result":  "SURVIVED",
+        "killedBy":  [
+
+                     ],
+        "verdict":  "PROBE-SURVIVED",
+        "seconds":  34.5,
+        "note":  ""
+    },
+    {
+        "id":  "J01",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "drop reclaim_count \u003e= 3 branch",
+        "expected":  [
+                         "janitor",
+                         "crash_recovery"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor",
+                         "crash_recovery"
+                     ],
+        "verdict":  "OK",
+        "seconds":  32.6,
+        "note":  ""
+    },
+    {
+        "id":  "J02",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "drop attempts \u003e max_attempts branch",
+        "expected":  [
+                         "janitor"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor"
+                     ],
+        "verdict":  "OK",
+        "seconds":  31,
+        "note":  ""
+    },
+    {
+        "id":  "J03",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "expiry window pushed back one day",
+        "expected":  [
+                         "janitor",
+                         "crash_recovery"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor",
+                         "crash_recovery",
+                         "janitor_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  32.1,
+        "note":  ""
+    },
+    {
+        "id":  "J04",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "status dlq -\u003e pending",
+        "expected":  [
+                         "janitor"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor",
+                         "crash_recovery",
+                         "janitor_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.3,
+        "note":  ""
+    },
+    {
+        "id":  "J05",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "lease_token not cleared",
+        "expected":  [
+                         "janitor_gaps"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  32.1,
+        "note":  ""
+    },
+    {
+        "id":  "J06",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "expiry window pushed forward one day",
+        "expected":  [
+                         "janitor"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor"
+                     ],
+        "verdict":  "OK",
+        "seconds":  31,
+        "note":  ""
+    },
+    {
+        "id":  "J07",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "COALESCE removed",
+        "expected":  [
+                         "janitor"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor"
+                     ],
+        "verdict":  "OK",
+        "seconds":  30.7,
+        "note":  ""
+    },
+    {
+        "id":  "J08",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "status filter expanded to pending",
+        "expected":  [
+                         "janitor_gaps"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor_gaps"
+                     ],
+        "verdict":  "OK",
+        "seconds":  30.8,
+        "note":  ""
+    },
+    {
+        "id":  "J09",
+        "kind":  "KILL",
+        "file":  "sql/janitor.sql",
+        "intent":  "locked_until not cleared",
+        "expected":  [
+                         "janitor",
+                         "janitor_gaps"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "janitor"
+                     ],
+        "verdict":  "OK",
+        "seconds":  31.1,
+        "note":  ""
+    },
+    {
+        "id":  "B01",
+        "kind":  "KILL",
+        "file":  "sql/release_breaker.sql",
+        "intent":  "remove lease_token fence",
+        "expected":  [
+                         "release_breaker",
+                         "claim_release_cycle"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker"
+                     ],
+        "verdict":  "OK",
+        "seconds":  31.3,
+        "note":  ""
+    },
+    {
+        "id":  "B02",
+        "kind":  "KILL",
+        "file":  "sql/release_breaker.sql",
+        "intent":  "attempts not decremented",
+        "expected":  [
+                         "release_breaker"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker",
+                         "claim_release_cycle"
+                     ],
+        "verdict":  "OK",
+        "seconds":  34.4,
+        "note":  ""
+    },
+    {
+        "id":  "B03",
+        "kind":  "KILL",
+        "file":  "sql/release_breaker.sql",
+        "intent":  "total_attempts not decremented",
+        "expected":  [
+                         "release_breaker"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker",
+                         "claim_release_cycle"
+                     ],
+        "verdict":  "OK",
+        "seconds":  31.6,
+        "note":  ""
+    },
+    {
+        "id":  "B04",
+        "kind":  "KILL",
+        "file":  "sql/release_breaker.sql",
+        "intent":  "next_attempt_at = now() (no +30s)",
+        "expected":  [
+                         "release_breaker"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker"
+                     ],
+        "verdict":  "OK",
+        "seconds":  30.2,
+        "note":  ""
+    },
+    {
+        "id":  "B05",
+        "kind":  "KILL",
+        "file":  "sql/release_breaker.sql",
+        "intent":  "status pending -\u003e processing",
+        "expected":  [
+                         "release_breaker"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker",
+                         "claim_release_cycle"
+                     ],
+        "verdict":  "OK",
+        "seconds":  34.6,
+        "note":  ""
+    },
+    {
+        "id":  "B06",
+        "kind":  "KILL",
+        "file":  "sql/release_breaker.sql",
+        "intent":  "lease_token not cleared",
+        "expected":  [
+                         "release_breaker"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker"
+                     ],
+        "verdict":  "OK",
+        "seconds":  35.5,
+        "note":  ""
+    },
+    {
+        "id":  "B07",
+        "kind":  "KILL",
+        "file":  "sql/release_breaker.sql",
+        "intent":  "locked_until not cleared",
+        "expected":  [
+                         "release_breaker"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_breaker"
+                     ],
+        "verdict":  "OK",
+        "seconds":  35.8,
+        "note":  ""
+    },
+    {
+        "id":  "S01",
+        "kind":  "KILL",
+        "file":  "sql/release_shutdown.sql",
+        "intent":  "remove lease_token fence",
+        "expected":  [
+                         "release_shutdown",
+                         "claim_release_cycle"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_shutdown"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.5,
+        "note":  ""
+    },
+    {
+        "id":  "S02",
+        "kind":  "KILL",
+        "file":  "sql/release_shutdown.sql",
+        "intent":  "attempts not decremented",
+        "expected":  [
+                         "release_shutdown"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_shutdown",
+                         "claim_release_cycle"
+                     ],
+        "verdict":  "OK",
+        "seconds":  31.2,
+        "note":  ""
+    },
+    {
+        "id":  "S03",
+        "kind":  "KILL",
+        "file":  "sql/release_shutdown.sql",
+        "intent":  "total_attempts not decremented",
+        "expected":  [
+                         "release_shutdown"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_shutdown",
+                         "claim_release_cycle"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.3,
+        "note":  ""
+    },
+    {
+        "id":  "S04",
+        "kind":  "KILL",
+        "file":  "sql/release_shutdown.sql",
+        "intent":  "next_attempt_at now -\u003e +1h",
+        "expected":  [
+                         "release_shutdown"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_shutdown"
+                     ],
+        "verdict":  "OK",
+        "seconds":  30.8,
+        "note":  ""
+    },
+    {
+        "id":  "S05",
+        "kind":  "KILL",
+        "file":  "sql/release_shutdown.sql",
+        "intent":  "status pending -\u003e processing",
+        "expected":  [
+                         "release_shutdown"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_shutdown",
+                         "claim_release_cycle"
+                     ],
+        "verdict":  "OK",
+        "seconds":  33.8,
+        "note":  ""
+    },
+    {
+        "id":  "S06",
+        "kind":  "KILL",
+        "file":  "sql/release_shutdown.sql",
+        "intent":  "lease_token not cleared",
+        "expected":  [
+                         "release_shutdown"
+                     ],
+        "result":  "KILLED",
+        "killedBy":  [
+                         "release_shutdown"
+                     ],
+        "verdict":  "OK",
+        "seconds":  31.2,
+        "note":  ""
+    }
+]

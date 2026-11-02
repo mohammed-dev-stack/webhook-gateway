@@ -1,55 +1,55 @@
-mutation report  2026-10-31T22:08:56  git 7e3f684
-baseline 36s; mutants run: 43; skipped (bad anchors): none
+mutation report  2026-11-02T19:51:03  git faf5281
+baseline 38.9s; mutants run: 43; skipped (bad anchors): none
 gate suite: smoke; domain suites: claim_basic,claim_basic_gaps,claim_fairness,claim_race,claim_release_cycle,crash_recovery,janitor,janitor_gaps,release_breaker,release_shutdown
 
 ID | Kind | File | Intent | Expected | Result | KilledBy | Verdict | Sec
 ---|---|---|---|---|---|---|---|---
-C01 | KILL | sql/claim.sql | remove SKIP LOCKED | claim_race | KILLED | claim_race | OK | 36.2
-C02 | KILL | sql/claim.sql | per-tenant cap 2 -> 10 | claim_basic,claim_fairness | KILLED | claim_race,claim_basic,claim_fairness,claim_basic_gaps | OK | 34.9
-C03 | KILL | sql/claim.sql | batch size 10 -> 100 | claim_basic | KILLED | claim_basic,claim_basic_gaps | OK | 33.3
-C04 | KILL | sql/claim.sql | reclaim boundary <= -> < | crash_recovery | KILLED | crash_recovery | OK | 33.4
-C05 | KILL | sql/claim.sql | reclaim_count bound 3 -> 100 | crash_recovery | KILLED | crash_recovery | OK | 36
-C06 | KILL | sql/claim.sql | total_attempts not incremented | claim_basic,claim_release_cycle | KILLED | crash_recovery,claim_basic,release_shutdown,claim_release_cycle,release_breaker | OK | 34.3
-C07 | KILL | sql/claim.sql | attempts not incremented | claim_basic | KILLED | crash_recovery,claim_release_cycle,claim_basic,release_breaker,release_shutdown,claim_race | OK | 33.1
-C08 | KILL | sql/claim.sql | lease_token = NULL on claim | claim_basic | KILLED | crash_recovery,claim_basic,claim_release_cycle,release_shutdown,release_breaker | OK | 34
-C09 | KILL | sql/claim.sql | lock window 30s -> 5s | claim_basic | KILLED | claim_basic | OK | 33.4
-C10 | KILL | sql/claim.sql | reclaim_count increment replaced by +0 | crash_recovery | KILLED | claim_release_cycle,crash_recovery | OK | 33.8
-C11 | KILL | sql/claim.sql | pending budget guard loosened | claim_basic | KILLED | claim_basic | OK | 35.5
-C12 | KILL | sql/claim.sql | LATERAL reclaims unexpired leases | claim_basic | KILLED | claim_basic,claim_race,claim_fairness | OK | 34.3
-C13 | KILL | sql/claim.sql | active_tenants forgets expired processing | crash_recovery | KILLED | release_breaker,crash_recovery,release_shutdown,claim_release_cycle | OK | 32.5
-C14 | KILL | sql/claim.sql | SET status = pending instead of processing | claim_basic | KILLED | release_breaker,crash_recovery,claim_release_cycle,release_shutdown,claim_basic,claim_race,claim_fairness,claim_basic_gaps | OK | 32.4
-C15 | KILL | sql/claim.sql | paused rows claimable | claim_basic_gaps | KILLED | claim_basic_gaps | OK | 32.5
-C16 | KILL | sql/claim.sql | outer ordering: oldest first -> by id | claim_basic_gaps | KILLED | claim_basic_gaps | OK | 31.4
-C17 | KILL | sql/claim.sql | LATERAL ordering: oldest first -> by id | claim_basic_gaps | KILLED | claim_basic_gaps | OK | 33.2
-C18 | KILL | sql/claim.sql | LATERAL ignores the tenant | claim_basic,claim_fairness | KILLED | claim_basic_gaps,claim_basic,claim_fairness | OK | 33.7
-C19 | PROBE | sql/claim.sql | PROBE LATERAL due check loosened by 1h | (none) | SURVIVED | - | PROBE-SURVIVED | 33.3
-C20 | PROBE | sql/claim.sql | PROBE updated_at not touched by claim | (none) | SURVIVED | - | PROBE-SURVIVED | 33.7
-C21 | PROBE | sql/claim.sql | PROBE RETURNING drops total_attempts | (none) | SURVIVED | - | PROBE-SURVIVED | 34.5
-J01 | KILL | sql/janitor.sql | drop reclaim_count >= 3 branch | janitor,crash_recovery | KILLED | janitor,crash_recovery | OK | 32.6
-J02 | KILL | sql/janitor.sql | drop attempts > max_attempts branch | janitor | KILLED | janitor | OK | 31
-J03 | KILL | sql/janitor.sql | expiry window pushed back one day | janitor,crash_recovery | KILLED | janitor,crash_recovery,janitor_gaps | OK | 32.1
-J04 | KILL | sql/janitor.sql | status dlq -> pending | janitor | KILLED | janitor,crash_recovery,janitor_gaps | OK | 33.3
-J05 | KILL | sql/janitor.sql | lease_token not cleared | janitor_gaps | KILLED | janitor_gaps | OK | 32.1
-J06 | KILL | sql/janitor.sql | expiry window pushed forward one day | janitor | KILLED | janitor | OK | 31
-J07 | KILL | sql/janitor.sql | COALESCE removed | janitor | KILLED | janitor | OK | 30.7
-J08 | KILL | sql/janitor.sql | status filter expanded to pending | janitor_gaps | KILLED | janitor_gaps | OK | 30.8
-J09 | KILL | sql/janitor.sql | locked_until not cleared | janitor,janitor_gaps | KILLED | janitor | OK | 31.1
-B01 | KILL | sql/release_breaker.sql | remove lease_token fence | release_breaker,claim_release_cycle | KILLED | release_breaker | OK | 31.3
-B02 | KILL | sql/release_breaker.sql | attempts not decremented | release_breaker | KILLED | release_breaker,claim_release_cycle | OK | 34.4
-B03 | KILL | sql/release_breaker.sql | total_attempts not decremented | release_breaker | KILLED | release_breaker,claim_release_cycle | OK | 31.6
-B04 | KILL | sql/release_breaker.sql | next_attempt_at = now() (no +30s) | release_breaker | KILLED | release_breaker | OK | 30.2
-B05 | KILL | sql/release_breaker.sql | status pending -> processing | release_breaker | KILLED | release_breaker,claim_release_cycle | OK | 34.6
-B06 | KILL | sql/release_breaker.sql | lease_token not cleared | release_breaker | KILLED | release_breaker | OK | 35.5
-B07 | KILL | sql/release_breaker.sql | locked_until not cleared | release_breaker | KILLED | release_breaker | OK | 35.8
-S01 | KILL | sql/release_shutdown.sql | remove lease_token fence | release_shutdown,claim_release_cycle | KILLED | release_shutdown | OK | 33.5
-S02 | KILL | sql/release_shutdown.sql | attempts not decremented | release_shutdown | KILLED | release_shutdown,claim_release_cycle | OK | 31.2
-S03 | KILL | sql/release_shutdown.sql | total_attempts not decremented | release_shutdown | KILLED | release_shutdown,claim_release_cycle | OK | 33.3
-S04 | KILL | sql/release_shutdown.sql | next_attempt_at now -> +1h | release_shutdown | KILLED | release_shutdown | OK | 30.8
-S05 | KILL | sql/release_shutdown.sql | status pending -> processing | release_shutdown | KILLED | release_shutdown,claim_release_cycle | OK | 33.8
-S06 | KILL | sql/release_shutdown.sql | lease_token not cleared | release_shutdown | KILLED | release_shutdown | OK | 31.2
+C01 | KILL | sql/claim.sql | remove SKIP LOCKED | claim_race | KILLED | claim_race | OK | 40
+C02 | KILL | sql/claim.sql | per-tenant cap 2 -> 10 | claim_basic,claim_fairness | KILLED | claim_race,claim_basic,claim_fairness,claim_basic_gaps | OK | 41.5
+C03 | KILL | sql/claim.sql | batch size 10 -> 100 | claim_basic | KILLED | claim_basic,claim_basic_gaps | OK | 38.5
+C04 | KILL | sql/claim.sql | reclaim boundary <= -> < | crash_recovery | KILLED | crash_recovery | OK | 36.2
+C05 | KILL | sql/claim.sql | reclaim_count bound 3 -> 100 | crash_recovery | KILLED | crash_recovery | OK | 37.7
+C06 | KILL | sql/claim.sql | total_attempts not incremented | claim_basic,claim_release_cycle | KILLED | crash_recovery,claim_basic,claim_release_cycle,release_breaker,release_shutdown | OK | 37
+C07 | KILL | sql/claim.sql | attempts not incremented | claim_basic | KILLED | claim_basic,crash_recovery,claim_release_cycle,release_breaker,release_shutdown,claim_race | OK | 38.1
+C08 | KILL | sql/claim.sql | lease_token = NULL on claim | claim_basic | KILLED | claim_basic,crash_recovery,release_shutdown,claim_release_cycle,release_breaker | OK | 37.1
+C09 | KILL | sql/claim.sql | lock window 30s -> 5s | claim_basic | KILLED | claim_basic | OK | 37.4
+C10 | KILL | sql/claim.sql | reclaim_count increment replaced by +0 | crash_recovery | KILLED | claim_release_cycle,crash_recovery | OK | 39.4
+C11 | KILL | sql/claim.sql | pending budget guard loosened | claim_basic | KILLED | claim_basic | OK | 37.8
+C12 | KILL | sql/claim.sql | LATERAL reclaims unexpired leases | claim_basic | KILLED | claim_basic,claim_race,claim_fairness | OK | 37.6
+C13 | KILL | sql/claim.sql | active_tenants forgets expired processing | crash_recovery | KILLED | release_breaker,claim_release_cycle,release_shutdown,crash_recovery | OK | 36.7
+C14 | KILL | sql/claim.sql | SET status = pending instead of processing | claim_basic | KILLED | release_breaker,claim_release_cycle,release_shutdown,crash_recovery,claim_basic,claim_race,claim_fairness,claim_basic_gaps | OK | 38.5
+C15 | KILL | sql/claim.sql | paused rows claimable | claim_basic_gaps | KILLED | claim_basic_gaps | OK | 38.9
+C16 | KILL | sql/claim.sql | outer ordering: oldest first -> by id | claim_basic_gaps | KILLED | claim_basic_gaps | OK | 38
+C17 | KILL | sql/claim.sql | LATERAL ordering: oldest first -> by id | claim_basic_gaps | KILLED | claim_basic_gaps | OK | 37.4
+C18 | KILL | sql/claim.sql | LATERAL ignores the tenant | claim_basic,claim_fairness | KILLED | claim_basic_gaps,claim_basic,claim_fairness | OK | 33.4
+C19 | PROBE | sql/claim.sql | PROBE LATERAL due check loosened by 1h | (none) | SURVIVED | - | PROBE-SURVIVED | 37.5
+C20 | PROBE | sql/claim.sql | PROBE updated_at not touched by claim | (none) | SURVIVED | - | PROBE-SURVIVED | 42.4
+C21 | PROBE | sql/claim.sql | PROBE RETURNING drops total_attempts | (none) | SURVIVED | - | PROBE-SURVIVED | 37.7
+J01 | KILL | sql/janitor.sql | drop reclaim_count >= 3 branch | janitor,crash_recovery | KILLED | janitor,crash_recovery | OK | 36.5
+J02 | KILL | sql/janitor.sql | drop attempts > max_attempts branch | janitor | KILLED | janitor | OK | 36.1
+J03 | KILL | sql/janitor.sql | expiry window pushed back one day | janitor,crash_recovery | KILLED | janitor,crash_recovery,janitor_gaps | OK | 37.4
+J04 | KILL | sql/janitor.sql | status dlq -> pending | janitor | KILLED | janitor,crash_recovery,janitor_gaps | OK | 34.1
+J05 | KILL | sql/janitor.sql | lease_token not cleared | janitor_gaps | KILLED | janitor_gaps | OK | 36
+J06 | KILL | sql/janitor.sql | expiry window pushed forward one day | janitor | KILLED | janitor | OK | 36.7
+J07 | KILL | sql/janitor.sql | COALESCE removed | janitor | KILLED | janitor | OK | 35.9
+J08 | KILL | sql/janitor.sql | status filter expanded to pending | janitor_gaps | KILLED | janitor_gaps | OK | 35.7
+J09 | KILL | sql/janitor.sql | locked_until not cleared | janitor,janitor_gaps | KILLED | janitor | OK | 33.8
+B01 | KILL | sql/release_breaker.sql | remove lease_token fence | release_breaker,claim_release_cycle | KILLED | release_breaker | OK | 36
+B02 | KILL | sql/release_breaker.sql | attempts not decremented | release_breaker | KILLED | release_breaker,claim_release_cycle | OK | 37.5
+B03 | KILL | sql/release_breaker.sql | total_attempts not decremented | release_breaker | KILLED | release_breaker,claim_release_cycle | OK | 38
+B04 | KILL | sql/release_breaker.sql | next_attempt_at = now() (no +30s) | release_breaker | KILLED | release_breaker | OK | 46.2
+B05 | KILL | sql/release_breaker.sql | status pending -> processing | release_breaker | KILLED | release_breaker,claim_release_cycle | OK | 44.4
+B06 | KILL | sql/release_breaker.sql | lease_token not cleared | release_breaker | KILLED | release_breaker | OK | 42
+B07 | KILL | sql/release_breaker.sql | locked_until not cleared | release_breaker | KILLED | release_breaker | OK | 37.3
+S01 | KILL | sql/release_shutdown.sql | remove lease_token fence | release_shutdown,claim_release_cycle | TIMEOUT | - | NOT-EVALUATED | 12421.3
+S02 | KILL | sql/release_shutdown.sql | attempts not decremented | release_shutdown | KILLED | release_shutdown,claim_release_cycle | OK | 76.9
+S03 | KILL | sql/release_shutdown.sql | total_attempts not decremented | release_shutdown | KILLED | claim_release_cycle,release_shutdown | OK | 42.3
+S04 | KILL | sql/release_shutdown.sql | next_attempt_at now -> +1h | release_shutdown | KILLED | release_shutdown | OK | 40.9
+S05 | KILL | sql/release_shutdown.sql | status pending -> processing | release_shutdown | KILLED | release_shutdown,claim_release_cycle | OK | 39.7
+S06 | KILL | sql/release_shutdown.sql | lease_token not cleared | release_shutdown | KILLED | release_shutdown | OK | 34.2
 
-Totals: 43 mutants | KILLED=40 SURVIVED=3 INVALID=0 ERROR=0 TIMEOUT=0
-Mutation score (killed / evaluated): 93%   non-probe: 40/40
+Totals: 43 mutants | KILLED=39 SURVIVED=3 INVALID=0 ERROR=0 TIMEOUT=1
+Mutation score (killed / evaluated): 92.9%   non-probe: 39/39
 
 GAP (non-probe mutants that survived):
   (none)
@@ -60,7 +60,10 @@ PROBES that survived (information):
   C21: The RETURNING column list is not asserted; the dispatcher will depend on total_attempts, attempts and max_attempts.
 
 NOT EVALUATED (INVALID / ERROR / TIMEOUT; these are NOT kills):
-  (none)
+  S01 TIMEOUT: domain run timed out; process tree killed
+      Console
+      INV-RB-1: release undoes claim, no attempt row, next_attempt_at ~ +30s
+      INV-RB-2: wrong token affects 0 rows and snapshot is unchanged
 
 Killed by an unexpected suite only (informational):
   (none)
@@ -83,11 +86,11 @@ Failing tests per KILLED mutant (first 3):
   C06: INV-CR-1: reclaim yields new token, attempts+1, reclaim_count+1, fresh lease
   C06: INV-CL-1: 4 due pending rows across 4 tenants are all claimed with distinct tokens
   C07: Console
+  C07: INV-CL-1: 4 due pending rows across 4 tenants are all claimed with distinct tokens
   C07: INV-CR-1: reclaim yields new token, attempts+1, reclaim_count+1, fresh lease
-  C07: INV-CR-3: budget edge reclaims only attempts=max, not attempts=max+1 or reclaim_count=3
   C08: Console
+  C08: INV-CL-1: 4 due pending rows across 4 tenants are all claimed with distinct tokens
   C08: INV-CR-1: reclaim yields new token, attempts+1, reclaim_count+1, fresh lease
-  C08: INV-CR-4: reclaim bound at 3, then janitor moves row to dlq
   C09: Console
   C09: INV-CL-1: 4 due pending rows across 4 tenants are all claimed with distinct tokens
   C10: Console
@@ -100,10 +103,10 @@ Failing tests per KILLED mutant (first 3):
   C12: INV-RC-2: commit variant yields disjoint sets
   C13: Console
   C13: INV-RB-4: stale token after takeover is rejected; new token is accepted
-  C13: INV-CR-1: reclaim yields new token, attempts+1, reclaim_count+1, fresh lease
+  C13: INV-CY-2: release does not reset reclaim_count (design question)
   C14: Console
   C14: INV-RB-4: stale token after takeover is rejected; new token is accepted
-  C14: INV-CR-1: reclaim yields new token, attempts+1, reclaim_count+1, fresh lease
+  C14: INV-CY-2: release does not reset reclaim_count (design question)
   C15: Console
   C15: claim_basic_gaps ? C15: paused rows are not claimable even when due in the same tenant as a pending 
   C16: claim_basic_gaps ? C16: outer claim picks the OLDEST 10 across tenants, not the 10 lowest ids
@@ -155,15 +158,12 @@ Failing tests per KILLED mutant (first 3):
   B06: INV-RB-3: second release with same token affects 0 rows and does not double-decrement
   B07: Console
   B07: INV-RB-1: release undoes claim, no attempt row, next_attempt_at ~ +30s
-  S01: Console
-  S01: INV-RS-2: wrong token affects 0 rows and snapshot is unchanged
-  S01: INV-RS-3: second release with same token affects 0 rows and does not double-decrement
   S02: Console
   S02: INV-RS-1: release undoes claim, no attempt row, row is claimable immediately
   S02: INV-RS-3: second release with same token affects 0 rows and does not double-decrement
   S03: Console
+  S03: INV-CY-1 shutdown: claim -> release -> claim restores fresh state
   S03: INV-RS-1: release undoes claim, no attempt row, row is claimable immediately
-  S03: INV-RS-3: second release with same token affects 0 rows and does not double-decrement
   S04: Console
   S04: INV-RS-1: release undoes claim, no attempt row, row is claimable immediately
   S05: Console
@@ -174,4 +174,4 @@ Failing tests per KILLED mutant (first 3):
   S06: INV-RS-3: second release with same token affects 0 rows and does not double-decrement
 
 Production SQL unchanged: yes (SHA-256 identical before and after).
-Total elapsed: 24.4 minutes
+Total elapsed: 235.1 minutes

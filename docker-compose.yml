@@ -1,16 +1,19 @@
 services:
   postgres:
-    image: postgres:16
+    image: postgres:16-alpine
     container_name: wg_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: webhooks
-    ports: ["5433:5432"]
+    ports:
+      - "127.0.0.1:5433:5432"
     command:
       - postgres
       - -c
       - max_connections=200
+      - -c
+      - shared_buffers=128MB
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d:ro
@@ -19,16 +22,19 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
+    restart: unless-stopped
 
   redis:
-    image: redis:7
+    image: redis:7-alpine
     container_name: wg_redis
-    ports: ["6380:6379"]
+    ports:
+      - "127.0.0.1:6380:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 2s
       timeout: 5s
       retries: 30
+    restart: unless-stopped
 
 volumes:
   pgdata:
